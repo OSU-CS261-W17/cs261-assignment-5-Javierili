@@ -1,6 +1,6 @@
 # Assignment 5
 
-**Due 4:59pm on Monday, 11/21/2016**
+**Due 4:59pm on Wednesday, 11/23/2016**
 
 The goal of this assignment is to work with priority queues.  A secondary goal is to start diving into data structures at a lower level than we have been, implementing some of the essential operations of the priority queue from scratch.
 
