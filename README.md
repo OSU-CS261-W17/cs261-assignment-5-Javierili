@@ -12,7 +12,9 @@ You must fill out the functions below in the priority queue implementation in `p
 
   * `void pq_insert(struct pq* pq, void* item, int priority)`
 
-    This function inserts a given piece of data (`item`) into the priority queue with the specified priority (`priority`).  This entails finding the correct location in the heap array in which to insert the new element, inserting it there, and then making sure the minimizing heap property (that every element's value is less than the values of its children) is maintained.
+    This function inserts a given piece of data (`item`) into the priority queue with the specified priority (`priority`).  Importantly, **lower values of `priority` correspond to items with higher priority relative to other items.**  For example, an item with `priority` 0 should be returned from the priority queue before an item with `priority` 5.
+
+    Implementing this function entails finding the correct location in the heap array in which to insert the new element, inserting it there, and then making sure the minimizing heap property (that every element's value is less than the values of its children) is maintained.
 
     To implement this function, you will be introduced to the new concept of a `void` pointer (`void*`).  This is simply a generic pointer that can point to a memory address of any type.  The dynamic array implementation stores `void` pointers.  We will use these to hold pointers to an auxiliary structure (`struct pq_elem`) representing a single element in the priority queue, including its priority value and its associated data.
 
