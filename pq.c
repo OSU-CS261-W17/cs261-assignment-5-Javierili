@@ -74,7 +74,7 @@ void pq_free(struct pq* pq) {
  */
 int pq_isempty(struct pq* pq) {
   assert(pq);
-  return dynarray_size(pq->heap) > 0;
+  return dynarray_size(pq->heap) == 0;
 }
 
 
