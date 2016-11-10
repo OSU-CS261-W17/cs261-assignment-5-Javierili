@@ -187,7 +187,7 @@ void* pq_remove_first(struct pq* pq) {
    */
   if (first_elem != NULL) {
     void* item = first_elem->item;
-    free(first_item);
+    free(first_elem);
     return item;
   } else {
     return NULL;
