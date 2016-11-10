@@ -62,6 +62,9 @@ struct pq* pq_create() {
  */
 void pq_free(struct pq* pq) {
   assert(pq);
+  while (!pq_isempty(pq)) {
+    pq_remove_first(pq);
+  }
   dynarray_free(pq->heap);
   free(pq);
 }
@@ -183,7 +186,9 @@ void* pq_remove_first(struct pq* pq) {
    * queue is not NULL.
    */
   if (first_elem != NULL) {
-    return first_elem->item;
+    void* item = first_elem->item;
+    free(first_item);
+    return item;
   } else {
     return NULL;
   }
