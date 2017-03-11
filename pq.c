@@ -208,7 +208,7 @@ void* pq_remove_first(struct pq* pq) {
 
   struct pq_elem* first_elem = NULL;
   struct dynarray * heap = pq->heap;
-  struct pq_elem * tester = NULL; //DEBUGGER-- REMOVE LATER
+  //struct pq_elem * tester = NULL; //DEBUGGER-- REMOVE LATER
 
   /*
    * Determine what index in the heap array corresponds to the highest-priority
@@ -218,18 +218,21 @@ void* pq_remove_first(struct pq* pq) {
 
   first_elem = dynarray_get(heap, 0);
 
-  printf("In remove_first  Priority is: %d\n",first_elem->priority);
+  //DEBUGGING
+  //printf("In remove_first  Priority is: %d\n",first_elem->priority);
   /*
    * Replace the highest-priority element with the appropriate one from within
    * the heap array.  Remove that replacement element from the array after
    * copying its value to the location of the old highest-priority element..
    */
+  if(dynarray_size(heap)!=1){
   dynarray_set(heap,0,dynarray_get(heap,-1)); //replace idx 0 w/ last filled
+  }
   dynarray_remove(heap,-1); //remove last node
 
  //DEBUGGING: 
-  tester = dynarray_get(heap,0);
-  printf("After last swap: Priority is: %d\n",tester->priority);
+  //tester = dynarray_get(heap,0);
+  //printf("After last swap: Priority is: %d\n",tester->priority);
   /*
    * Restore the heap so that it has the property that every node's priority
    * value is less than the priority values of its children.  This can be
@@ -239,23 +242,26 @@ void* pq_remove_first(struct pq* pq) {
    * array (i.e. by comparing the elem->priority values).  It may be helpful
    * to write a helper function to accomplish this percolation down.
    */
+  if(dynarray_size(heap)>1){
    perlocateHeap(heap, dynarray_size(heap)-1,0);
+  }
   /*
    * Return the extracted item, if the element taken out of the priority
    * queue is not NULL.
    */
 
-   //printing array to screen (debugging)
+   /*printing array to screen (DEBUGGING)
    struct pq_elem * tempor = dynarray_get(heap, 0);
-printf("\n");
+   printf("\n");
    for(int i= 0; i<dynarray_size(heap);i++){
    tempor = dynarray_get(heap, i);
    printf("%d: %d --",i,tempor->priority); 
    }
    printf("\n");
 
-
   printf("Check for removed node: priority was: %d\n",first_elem->priority);
+*/
+
 
   if (first_elem != NULL) {
     void* item = first_elem->item;
@@ -281,17 +287,21 @@ printf("\n");
  * indx: index of currently examined node
  */
 void perlocateHeap(struct dynarray * heap, int end, int indx){
+  assert(heap);
+  assert(indx < dynarray_size(heap));
+
   int left = indx * 2 + 1; //finding the indexes of indx's kids
-  int right = indx * 2 + 1;
+  int right = indx * 2 + 2;
   struct pq_elem *test = dynarray_get(heap,indx);  
   int indxPrio= test->priority;
-  struct pq_elem * temp = NULL;
+  struct pq_elem * temp = NULL;  //will hold left/right children
   struct pq_elem * temp0 = NULL;
   
   
-  printf("Woah we're perlcoating'\n");
+  //DEBUGGING
+  //printf("Woah we're perlcoating'\n"); 
   //indx has 2 kids:
-  if(right< end){
+  if(right<= end){
 
   	temp0 = dynarray_get(heap,right);
   	temp = dynarray_get(heap, left);
@@ -306,16 +316,11 @@ void perlocateHeap(struct dynarray * heap, int end, int indx){
   } //ifRight
 
   //indx has only 1 kid
-  else if(left < end){
+  else if(left <= end){
   	temp = dynarray_get(heap,left);
-	/*if(temp->priority<indxPrio){
-	
-	   dynarray_set(heap,left, dynarray_get(heap,indx));
-	   dynarray_set(heap, indx, temp);
-	   perlocateHeap(heap,end,left);	
-	}*/
   }
 
+  //no kids
   else { return; }
 
   
